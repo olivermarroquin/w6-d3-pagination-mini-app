@@ -31,3 +31,12 @@ async function getCharacters(page) {
 
   return res.json();
 }
+
+function showLoading() {
+  statusEl.textContent = "Loading";
+  resultsEl.textContent = "";
+}
+
+function showMessage(message) {
+  statusEl.textContent = message;
+}
