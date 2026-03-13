@@ -41,6 +41,15 @@ function showMessage(message) {
   statusEl.textContent = message;
 }
 
+function updatePageInfo() {
+  pageInfoEl.textContent = `Page: ${currentPage} | Total Items: ${totalItems}`;
+}
+
+function updateButtons() {
+  prevBtn.disabled = currentPage === 1;
+  nextBtn.disabled = currentPage === totalPages;
+}
+
 function renderResults(characters) {
   resultsEl.textContent = "";
 
@@ -67,7 +76,13 @@ async function main() {
     const data = await getCharacters(1);
     console.log(data);
 
+    currentPage = 1;
+    totalItems = data.info.count;
+    totalPages = data.info.pages;
+
     renderResults(data.results.slice(0, 10));
+    updatePageInfo();
+    updateButtons();
     showMessage("Loaded successfully.");
   } catch (error) {
     showMessage(error.message);
