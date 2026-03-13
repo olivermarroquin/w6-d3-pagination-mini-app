@@ -18,17 +18,13 @@ let totalPages = 1;
 
 async function getCharacters(page) {
   const url = `https://rickandmortyapi.com/api/character/?page=${page}`;
-
   const res = await fetch(url);
-
   if (res.status === 429 || res.status === 403) {
     throw new Error("Rate limit reached. Please wait and try again.");
   }
-
   if (!res.ok) {
     throw new Error("Something went wrong while loading data.");
   }
-
   return res.json();
 }
 
@@ -69,14 +65,14 @@ function renderResults(characters) {
   }
 }
 
-async function main() {
+async function loadPage(page) {
   try {
     showLoading();
 
-    const data = await getCharacters(1);
+    const data = await getCharacters(page);
     console.log(data);
 
-    currentPage = 1;
+    currentPage = page;
     totalItems = data.info.count;
     totalPages = data.info.pages;
 
@@ -88,6 +84,10 @@ async function main() {
     showMessage(error.message);
     console.error(error);
   }
+}
+
+async function main() {
+  await loadPage(1);
 }
 
 main();
