@@ -72,6 +72,7 @@ async function loadPage(page) {
     const data = await getCharacters(page);
     console.log(data);
 
+    //pagination below:
     currentPage = page;
     totalItems = data.info.count;
     totalPages = data.info.pages;
@@ -101,7 +102,9 @@ async function main() {
         loadPage(currentPage + 1);
       }
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 main();
