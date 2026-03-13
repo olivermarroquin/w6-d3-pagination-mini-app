@@ -33,10 +33,46 @@ async function getCharacters(page) {
 }
 
 function showLoading() {
-  statusEl.textContent = "Loading";
+  statusEl.textContent = "Loading...";
   resultsEl.textContent = "";
 }
 
 function showMessage(message) {
   statusEl.textContent = message;
 }
+
+function renderResults(characters) {
+  resultsEl.textContent = "";
+
+  for (let i = 0; i < characters.length; i++) {
+    const row = document.createElement("div");
+    const name = document.createElement("p");
+    const img = document.createElement("img");
+
+    name.textContent = characters[i].name;
+    img.src = characters[i].image;
+    img.alt = characters[i].name;
+    img.width = 100;
+
+    row.appendChild(name);
+    row.appendChild(img);
+    resultsEl.appendChild(row);
+  }
+}
+
+async function main() {
+  try {
+    showLoading();
+
+    const data = await getCharacters(1);
+    console.log(data);
+
+    renderResults(data.results.slice(0, 10));
+    showMessage("Loaded successfully.");
+  } catch (error) {
+    showMessage(error.message);
+    console.error(error);
+  }
+}
+
+main();
