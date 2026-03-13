@@ -87,7 +87,21 @@ async function loadPage(page) {
 }
 
 async function main() {
-  await loadPage(1);
+  try {
+    await loadPage(1);
+
+    prevBtn.addEventListener("click", () => {
+      if (currentPage > 1) {
+        loadPage(currentPage - 1);
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentPage < totalPages) {
+        loadPage(currentPage + 1);
+      }
+    });
+  } catch (error) {}
 }
 
 main();
